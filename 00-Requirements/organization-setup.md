@@ -52,6 +52,8 @@ Check, edit and save your billing information. Nothing is charged to you until y
 
 ![billing-info](image-2.png)
 
+
+
 ### Assign copilot seats
 
 Assign copilot seats to your users (all or selected based on your scenario).
@@ -65,3 +67,29 @@ Example:
 1. Continue to purchase.
 
 ![alt text](image-5.png)
+
+If everything is setup properly you should see something like this.
+
+Visit: `https://github.com/organizations/<your-org>/settings/copilot/seat_management`
+
+![final](image-6.png)
+
+### Enable two-factor authentication (recommended)
+
+It is recommended to require two-factor authentication (2FA) for your organization to improve security.
+
+Reference: [requiring two-factor authentication in your organization](https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization)
+
+1. Go to Authentication -> Security for your org `https://github.com/organizations/<your-org>/settings/security` ![menu security](image-7.png)
+1. Activate `Require two-factor authentication for everyone` ![2fa](image-8.png)
+
+
+
+### Install Visual Studio Code and Copilot extension
+
+Each workshop participant needs Visual Studio Code and the GitHub Copilot extension installed.
+
+1. Download and install Visual Studio Code from [code.visualstudio.com](https://code.visualstudio.com/).
+1. Open Visual Studio Code, go to Extensions, and search for "GitHub Copilot".
+1. Install the extension and sign in with the GitHub account used in the organization.
+
