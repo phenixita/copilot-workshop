@@ -12,7 +12,7 @@ A GitHub organization is a shared “container” where a team, company, or comm
 - Inside an organization, you can have many repositories, public or private, linked to the same group or company. [github](https://github.com/orgs/community/discussions/69020)
 - Users join with their personal account but work “inside” the organization. [docs.github](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/about-organizations)
 
-### What is it for (super concise)
+### What is it for
 
 - **Team management**: define roles (owner, maintainer, member), create teams with different permissions (read-only, write, admin) on groups of repos. [github](https://github.com/orgs/community/discussions/69020)
 - Centralize projects: all company or product repos are in the same space, organized and easy to find (avoiding many repos scattered among personal accounts). [it.scribd](https://it.scribd.com/document/513270621/github-guide-to-organizations)
