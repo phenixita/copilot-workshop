@@ -61,6 +61,12 @@ Choose the installation method that best fits your operating system:
   ```bash
   cd ~/my-project
   ```
+  ```powershell
+  # Cross-platform PowerShell (pwsh):
+  Set-Location ~/my-project
+  # or
+  cd ~/my-project
+  ```
 - Launch Copilot CLI in interactive mode:
   ```bash
   copilot
@@ -239,6 +245,10 @@ Before you begin, make sure you have:
   RESPONSE=$(copilot -sp "Write a concise commit message for: added input validation to the login form")
   echo "$RESPONSE"
   ```
+  ```powershell
+  $RESPONSE = (copilot -sp 'Write a concise commit message for: added input validation to the login form')
+  Write-Output $RESPONSE
+  ```
 
 **Step 2 — Use Copilot CLI in a pipeline**
 
@@ -249,6 +259,9 @@ Before you begin, make sure you have:
 - Try generating automatic documentation for a file:
   ```bash
   cat src/utils.js | copilot -sp "Generate JSDoc comments for each function in this file"
+  ```
+  ```powershell
+  Get-Content src/utils.js -Raw | copilot -sp "Generate JSDoc comments for each function in this file"
   ```
 
 **Step 3 — Create an automation script**
@@ -277,11 +290,41 @@ Before you begin, make sure you have:
     echo "Commit cancelled."
   fi
   ```
+  ```powershell
+  # ai-commit.ps1 — Generate a commit message with Copilot CLI
+
+  $diff = git diff --staged
+
+  if ([string]::IsNullOrWhiteSpace($diff)) {
+    Write-Output "No staged changes. Run 'git add' first."
+    exit 1
+  }
+
+  $msg = (copilot -sp 'Write a conventional commit message for these changes. Reply with only the commit message, no explanation.') -join "`n"
+
+  Write-Output "Suggested message: $msg"
+  $confirm = Read-Host "Use this message? (y/n)"
+
+  if ($confirm -eq 'y') {
+    git commit -m "$msg"
+    Write-Output "Commit created!"
+  } else {
+    Write-Output "Commit cancelled."
+  }
+  ```
 - Make the script executable and test it:
   ```bash
   chmod +x ai-commit.sh
   git add .
   ./ai-commit.sh
+  ```
+  ```powershell
+  # Run the PowerShell script (PowerShell Core)
+  pwsh ./ai-commit.ps1
+
+  # If using PowerShell interactive session, you can also:
+  # Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+  # ./ai-commit.ps1
   ```
 
 ### Success Criteria
