@@ -13,6 +13,7 @@ Companion repo for MFSE Workshops on GitHub Copilot.
 - `02-Getting-started/` — first effective sessions in VS Code, context, tools, and approvals
     - Managing context, comparing model choices, and keeping chat sessions tidy.
     - Observing tool calls, narrowing tool access, and approving/rejecting proposed changes.
+    - Mastering built-in agent tools in VS Code with practical, controlled exercises.
 - `04-Planning/` — plan complex changes before implementation
     - Separating research and planning from implementation for complex features.
     - Configuring dedicated models and adding extra tools to the planning phase.

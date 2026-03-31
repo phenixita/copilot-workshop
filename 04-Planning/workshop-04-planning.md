@@ -18,7 +18,7 @@ This training package is proprietary and confidential and is intended exclusivel
 
 ## The Scenario
 
-You are the lead developer on a web application project. Your team has learned the hard way that jumping straight into code generation leads to incomplete implementations and wrong architectural decisions. A new feature request just landed: "Add a user profile page with avatar upload". Instead of letting the AI start editing files immediately, you want to research, plan, get alignment, and only then implement. The Plan agent is the tool for this job.
+You are the lead developer on a web application project. Your team has learned the hard way that jumping straight into code generation leads to incomplete implementations and wrong architectural decisions. A new feature request just landed: "Add a three-state theme switch (Light / Dark / System) with full light and dark theme support". The app already has some dark mode infrastructure but no user-facing toggle. Instead of letting the AI start editing files immediately, you want to research, plan, get alignment, and only then implement. The Plan agent is the tool for this job.
 
 > **Remember:** the Plan agent is a built-in Copilot agent designed to collaborate with you on creating detailed implementation plans *before* any code changes are made. It uses read-only tools during the research phase so it cannot accidentally modify your codebase while thinking.
 
@@ -57,7 +57,7 @@ Before starting, make sure you have:
 - Type a feature request that requires planning across multiple files:
 
 ```
-/plan Add a user profile page to this application. The page should display the user's name, email, and avatar. Include a form to upload a new avatar image. The avatar should be stored locally and displayed as a circular thumbnail.
+/plan Add a three-state theme toggle component (Light, Dark, System) to this application. The System state should read the user's OS preference using prefers-color-scheme. The preference should be persisted across reloads. The toggle should accurately display the current state and provide smooth transitions between themes.
 ```
 
 - Press Enter and observe the Plan agent's behavior
@@ -75,8 +75,8 @@ Before starting, make sure you have:
 
 - After the initial research, the Plan agent may ask you **clarifying questions** to resolve ambiguities
 - Answer these questions thoughtfully — they shape the implementation plan. For example:
-  - *"Should the avatar upload use a dedicated API endpoint or a form submission?"* → Answer based on your project's existing patterns
-  - *"Is there an existing authentication middleware I should use?"* → Point the agent to the right file
+  - *"Should the theme toggle use a dropdown, a segmented control, or icon buttons?"* → Answer based on your project's existing patterns
+  - *"Is there an existing theme provider or CSS variable system I should build on?"* → Point the agent to the right file
 - If the agent doesn't ask questions, prompt it yourself:
 
 ```
@@ -92,7 +92,7 @@ Before you design the plan, what assumptions are you making about the tech stack
 - Review the plan carefully. Push back on anything you disagree with:
 
 ```
-I'd prefer to store avatars in a dedicated /uploads directory rather than alongside the source code. Can you update the plan?
+I'd prefer the toggle to be a segmented control with icons (sun/moon/monitor) rather than a dropdown menu. Can you update the plan?
 ```
 
 - The agent will refine the plan based on your feedback
@@ -156,11 +156,10 @@ Add the following setting to assign a reasoning-capable model to the Plan agent:
 
 ```jsonc
 {
-    "chat.planAgent.defaultModel": "claude-sonnet-4.6"
+    "chat.planAgent.defaultModel": "GPT-5.4 (copilot)"
 }
 ```
-
-> **Why this model?** Claude Sonnet 4.6 offers a strong balance between reasoning depth and speed. For very complex architectural decisions, you could use `claude-opus-4.6` (3x multiplier) or `gpt-5.2` (1x multiplier). For simpler projects, even `gpt-5-mini` works well.
+> **Model choice:** choose a model that excels at reasoning and has a large context window. Check the [model comparison](https://docs.github.com/en/copilot/reference/ai-models/model-comparison) to see which models are best for planning tasks.
 
 **Step 3 — Add the implementation model setting**
 
@@ -169,7 +168,7 @@ Add a second setting to assign a fast model to the implementation phase:
 ```jsonc
 {
     "chat.planAgent.defaultModel": "GPT-5.4 (copilot)",
-    "github.copilot.chat.implementAgent.model": "Gemini 3 Flash (Preview) (copilot)"
+    "github.copilot.chat.implementAgent.model": "GPT-5.3 Codex (copilot)"
 }
 ```
 
@@ -180,7 +179,7 @@ Add a second setting to assign a fast model to the implementation phase:
 - Open the Chat panel and start a new planning session:
 
 ```
-/plan Refactor the existing error handling in this project to use a centralized error handler middleware. All API routes should delegate to this middleware instead of handling errors inline.
+/plan Refactor the existing color system to use CSS custom properties for all theme tokens, ensuring light and dark variants are defined in a single source of truth. All components should reference these tokens instead of hardcoded colors.
 ```
 
 - Observe the model indicator in the Chat panel: during the planning phase, it should show the model you configured in `chat.planAgent.defaultModel`
@@ -267,11 +266,11 @@ Add the `fetch` tool to the Plan agent so it can read external URLs during the r
 Start a new planning session that explicitly references an external URL:
 
 ```
-/plan I need to add rate limiting to our API using the token bucket algorithm. Read this reference first: https://en.wikipedia.org/wiki/Token_bucket — then design a plan to implement it as an Express middleware in our project.
+/plan I need to implement system theme detection using the prefers-color-scheme media query. Read this reference first: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme — then design a plan to implement a ThemeProvider component that reacts to OS-level theme changes in real-time.
 ```
 
-- Observe: the Plan agent should use the `fetch` tool to retrieve the Wikipedia page content
-- The resulting plan should incorporate specific details from the fetched page (bucket size, token refill rate, etc.)
+- Observe: the Plan agent should use the `fetch` tool to retrieve the Mozilla Developer Network page content
+- The resulting plan should incorporate specific details from the fetched page (checking media queries, adding event listeners, etc.)
 - Compare this to what would happen without the `fetch` tool — the agent would rely solely on its training data
 
 **Step 4 — Add more tools (optional)**
@@ -291,7 +290,7 @@ If your project uses specific tools, you can add them:
 - Test with a refactoring prompt to see `usages` in action:
 
 ```
-/plan I want to rename the User model to Account across the entire codebase. Research all usages first and create a safe migration plan.
+/plan I want to replace all hardcoded color values (hex, rgb, hsl) across the codebase with CSS custom property references. Research all usages first and create a safe migration plan.
 ```
 
 **Step 5 — Understand the security trade-off**
@@ -339,10 +338,10 @@ Before starting, make sure you have:
 
 Pick a task that is meaningful for your project. It should touch at least 3 files and require some architectural thinking. Examples:
 
-- Add pagination to an existing API endpoint
-- Implement a caching layer for a slow database query
-- Add form validation with error messages to an existing form
-- Create a logging middleware that writes structured logs
+- Add a three-state theme toggle component (Light / Dark / System) with persistence
+- Implement smooth CSS transitions when switching themes
+- Add theme-aware illustrations or hero images that change with the theme
+- Create an accessible theme indicator in the navigation bar
 
 Write the feature request clearly:
 
@@ -378,13 +377,13 @@ Can you break this plan into smaller steps where each step produces a working, t
 - If the agent deviates from the plan, redirect it:
 
 ```
-You're drifting from the plan. Step 3 says to add the middleware before modifying the routes. Please follow the original order.
+You're drifting from the plan. Step 2 says to implement the ThemeProvider before building the toggle UI. Please follow the original order.
 ```
 
 - If you discover an issue during implementation, you can pause and adjust:
 
 ```
-Wait — I just realized we also need to handle the case where the user is not authenticated. Can you update the plan to include this before continuing?
+Wait — I just realized we also need to handle the case where the user's OS doesn't support prefers-color-scheme. Can you update the plan to include a fallback?
 ```
 
 **Step 5 — Validate the implementation**
@@ -397,7 +396,7 @@ After the agent completes all steps:
 - If there are discrepancies, ask the agent to fix them:
 
 ```
-The plan specified error responses in JSON format, but the implementation returns plain text errors. Please fix this to match the plan.
+The plan specified that the theme preference should persist in localStorage, but the implementation is using sessionStorage. Please fix this to match the plan.
 ```
 
 ### Success Criteria
