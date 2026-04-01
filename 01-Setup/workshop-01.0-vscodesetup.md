@@ -242,6 +242,89 @@ The three `"text"` entries are **inline rules** layered on top of the file. They
 
 ---
 
+## Exercise 4: Configuring Agent Mode for Advanced AI Features
+
+This exercise guides you through enabling and tuning Agent Mode, which unlocks Copilot's ability to run autonomous workflows and create specialized subagents. Agent Mode allows Copilot to make multiple requests in a single chat session and to invoke custom agents you create for domain-specific tasks.
+
+### Prerequisites
+
+Before starting, make sure you have:
+
+- GitHub Copilot activated and working (Exercise 1 completed)
+
+### Objective
+
+1. Understand what Agent Mode enables in Copilot
+2. Configure `chat.agent.maxRequests` to allow multiple autonomous requests
+3. Enable subagent support for custom agent creation
+4. Verify that Agent Mode is working
+
+### Background: What Is Agent Mode?
+
+Agent Mode represents an evolution beyond simple code completion or single-turn chat. It enables two powerful capabilities:
+
+| Setting                           | What It Does                                                                         |
+| --------------------------------- | ------------------------------------------------------------------------------------ |
+| `chat.agent.maxRequests`          | Sets the maximum number of sequential requests Copilot can make in a single session |
+| `chat.customAgentInSubagent.enabled` | Allows Copilot to invoke custom agents (from `.agent.md` files) as subagents        |
+
+By default, these are either disabled or set to conservative limits. Tuning them unlocks:
+
+- **Multi-step workflows**: Copilot can research, implement, test, and adjust code across multiple turns without you manually triggering each step
+- **Custom specialized agents**: You can define domain-specific agents (for DevOps, documentation, testing, etc.) and Copilot will invoke them automatically when relevant
+- **Improved debugging**: Copilot can run multiple diagnostic checks and propose fixes iteratively
+
+---
+
+**Step 1 — Open your user `settings.json`**
+
+- Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+- Type `Preferences: Open User Settings (JSON)` and press Enter
+
+**Step 2 — Add Agent Mode configuration**
+
+Within your existing `settings.json`, add or update the following settings:
+
+```jsonc
+{
+    "chat.agent.maxRequests": 250,
+    "chat.customAgentInSubagent.enabled": true
+}
+```
+
+**Understanding each setting:**
+
+- `"chat.agent.maxRequests": 250` — sets the maximum number of AI requests Copilot can make during a single chat session. The value `250` is a reasonable production setting that allows complex multi-step workflows while preventing runaway costs. You can adjust the number based on your needs (minimum `1`, no maximum). Higher values allow longer, more autonomous research and iteration.
+
+- `"chat.customAgentInSubagent.enabled": true` — enables Copilot to discover and invoke custom agents you define in `.agent.md` files. When enabled, Copilot can automatically route requests to the best agent for the task at hand.
+
+**Step 3 — Save and verify**
+
+- Save the settings file (`Ctrl+S` / `Cmd+S`)
+- VS Code will apply the settings immediately; no restart needed
+
+**Step 4 — Test Agent Mode in Copilot Chat**
+
+- Open the Copilot Chat panel (click the chat icon in the sidebar or press `Ctrl+L`)
+- Ask Copilot a multi-step question, for example:
+  - *"Analyze this project structure and suggest a testing strategy. Then create a sample test file for the main module."*
+  - *"Find all console.log statements in my code, explain why they should be removed, and generate a refactored version without them."*
+- Observe: Copilot should now be able to:
+  - Make multiple requests in sequence without you manually intervening
+  - Plan and execute multi-step tasks
+  - Provide iteration and refinement without stopping
+
+> **Note:** if you have created custom agents (in Exercise 6), Copilot will also automatically consider invoking them as part of its workflow.
+
+### Success Criteria
+
+- [ ] Your `settings.json` contains both `chat.agent.maxRequests` (set to a value like `250`) and `chat.customAgentInSubagent.enabled` (set to `true`)
+- [ ] You can explain what Agent Mode enables (multi-step workflows and custom agent invocation)
+- [ ] You have tested Copilot Chat with a multi-step request and observed that Copilot can complete it without requiring multiple manual interventions
+- [ ] You understand that higher `maxRequests` values enable longer workflows but consume more API quota
+
+---
+
 ## Summary: What You Have Configured
 
 After this workshop, your environment is ready for AI-assisted development:
