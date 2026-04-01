@@ -103,20 +103,13 @@ Before starting, make sure you have:
 
 > **Note:** if your organization manages this setting centrally, you may not be able to change it.
 
-**Step 2 — Verify applied settings**
-
-- Go back to VS Code
-- Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
-- Search for `GitHub Copilot: Status`
-- Verify that the settings have been applied correctly
-
 ### Success Criteria
 
 - [ ] You have verified the telemetry level set in VS Code 
 
 ---
 
-## Exercise 4: Customizing Commit Message Generation
+## Exercise 3: Customizing Commit Message Generation
 
 Every commit tells a story. Poorly written commit messages ("fix stuff", "WIP", "asdf") make code history unreadable and slow down code reviews, incident investigations, and changelog generation. Copilot can generate commit messages automatically — and this exercise shows you how to teach it your team's exact conventions, combining a shared Markdown instruction file with inline rules in `settings.json`.
 
